@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, Suspense } from 'react';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Clock, Waves, Calendar, MapPin, X, CheckCircle, Anchor, Coffee } from 'lucide-react';
@@ -135,7 +135,6 @@ const DAILY_SCHEDULE: DaySchedule[] = [
     description: 'Relaxing morning dives at Rainbow Reef followed by leisure time. Farewell dinner with crew and fellow divers sharing adventure stories.',
     image: '/itinerary4.png',
   },
-  
 ];
 
 const DIVE_SITES: DiveSite[] = [
@@ -282,9 +281,6 @@ const DailyItineraryTab: React.FC = () => (
     {DAILY_SCHEDULE.map((day, index) => (
       <div key={index} className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
         <div className="flex flex-col sm:flex-row">
-         
-          
-          {/* Content Section */}
           <div className="flex-1 p-3 md:p-4">
             <div className="flex flex-wrap items-center gap-2 mb-2">
               <span className="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded">
@@ -339,7 +335,6 @@ const DiveSitesTab: React.FC = () => (
 const WhatsIncludedTab: React.FC = () => (
   <div className="space-y-6">
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-      {/* Included */}
       <div className="bg-green-50 rounded-lg border border-green-200 p-4 md:p-5">
         <h3 className="text-sm md:text-base font-bold text-green-900 mb-3 md:mb-4 flex items-center">
           <CheckCircle className="h-4 w-4 md:h-5 md:w-5 mr-2" />
@@ -355,7 +350,6 @@ const WhatsIncludedTab: React.FC = () => (
         </ul>
       </div>
       
-      {/* Not Included */}
       <div className="bg-red-50 rounded-lg border border-red-200 p-4 md:p-5">
         <h3 className="text-sm md:text-base font-bold text-red-900 mb-3 md:mb-4 flex items-center">
           <X className="h-4 w-4 md:h-5 md:w-5 mr-2" />
@@ -372,7 +366,6 @@ const WhatsIncludedTab: React.FC = () => (
       </div>
     </div>
 
-    {/* Important Info */}
     <div className="bg-blue-50 rounded-lg border border-blue-200 p-4 md:p-5">
       <h3 className="text-sm md:text-base font-bold text-blue-900 mb-3 flex items-center">
         <svg className="h-4 w-4 md:h-5 md:w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -392,9 +385,7 @@ const WhatsIncludedTab: React.FC = () => (
 
 const VesselInfoTab: React.FC = () => (
   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
-    {/* Left Column */}
     <div className="space-y-6">
-      {/* Specs */}
       <div>
         <h3 className="text-sm md:text-base font-semibold text-gray-800 mb-3">Vessel Specifications</h3>
         <div className="bg-white rounded-lg border border-gray-200 divide-y divide-gray-200">
@@ -413,7 +404,6 @@ const VesselInfoTab: React.FC = () => (
         </div>
       </div>
 
-      {/* Facilities */}
       <div>
         <h3 className="text-sm md:text-base font-semibold text-gray-800 mb-3">Facilities & Features</h3>
         <div className="grid grid-cols-2 gap-2 md:gap-3">
@@ -432,7 +422,6 @@ const VesselInfoTab: React.FC = () => (
       </div>
     </div>
 
-    {/* Right Column - Images */}
     <div>
       <h3 className="text-sm md:text-base font-semibold text-gray-800 mb-3">Vessel Images</h3>
       <div className="space-y-3">
@@ -459,15 +448,14 @@ const VesselInfoTab: React.FC = () => (
   </div>
 );
 
-// --- Main Component ---
-const ItinerarySection: React.FC = () => {
+// --- Component Logic that requires useSearchParams ---
+const ItineraryPageContent: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState('overview');
   const [currentRoute, setCurrentRoute] = useState(ALL_ROUTES_DATA[0]);
 
   useEffect(() => {
-    // URL params se data get karo
     const routeName = searchParams.get('name');
     const dives = searchParams.get('dives');
     const duration = searchParams.get('duration');
@@ -477,20 +465,18 @@ const ItinerarySection: React.FC = () => {
     const routeId = searchParams.get('id');
 
     if (routeName && dives && duration && price) {
-      // URL se aaya hua data use karo
       setCurrentRoute({
         id: routeId ? parseInt(routeId) : 1,
         name: routeName,
         isPopular: popular === 'true',
         duration: duration,
         dives: dives,
-        dates: duration, // dates field ke liye
+        dates: duration,
         description: `Explore the stunning dive sites of ${routeName}, featuring pristine coral reefs, vibrant marine life, and unforgettable underwater experiences.`,
         startingPrice: price,
         spacesAvailable: spaces ? `${spaces} spaces available` : '6 spaces available',
       });
     } else if (routeId) {
-      // Fallback: agar URL params nahi hain to ID se find karo
       const route = ALL_ROUTES_DATA.find(r => r.id === parseInt(routeId));
       if (route) setCurrentRoute(route);
     }
@@ -509,7 +495,6 @@ const ItinerarySection: React.FC = () => {
   }, [router]);
 
   const handleBookCabin = useCallback(() => {
-    // Cabin selection page par b saari details pass karo
     const params = new URLSearchParams({
       id: currentRoute.id.toString(),
       name: currentRoute.name,
@@ -524,32 +509,23 @@ const ItinerarySection: React.FC = () => {
 
   const renderTabContent = useCallback(() => {
     switch (activeTab) {
-      case 'overview':
-        return <OverviewTab description={currentRoute.description} />;
-      case 'daily':
-        return <DailyItineraryTab />;
-      case 'sites':
-        return <DiveSitesTab />;
-      case 'included':
-        return <WhatsIncludedTab />;
-      case 'vessel':
-        return <VesselInfoTab />;
-      default:
-        return <OverviewTab description={currentRoute.description} />;
+      case 'overview': return <OverviewTab description={currentRoute.description} />;
+      case 'daily': return <DailyItineraryTab />;
+      case 'sites': return <DiveSitesTab />;
+      case 'included': return <WhatsIncludedTab />;
+      case 'vessel': return <VesselInfoTab />;
+      default: return <OverviewTab description={currentRoute.description} />;
     }
   }, [activeTab, currentRoute.description]);
 
   return (
     <div className="bg-blue-50/50 min-h-screen">
       <div className="mx-auto max-w-full w-full rounded-none md:rounded-xl bg-white md:shadow-2xl overflow-hidden">
-        
-        {/* Header */}
         <div 
           className="relative bg-cover bg-center pt-20 md:pt-24 pb-4 md:pb-6 px-4 md:px-6" 
           style={{ backgroundImage: 'url(/itinerary.png)' }}
         >
           <div className="absolute inset-0 bg-black/50" />
-          
           <div className="relative z-10 max-w-6xl mx-auto">
             <div className="flex items-start justify-between gap-3">
               <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-white flex-1">
@@ -563,7 +539,6 @@ const ItinerarySection: React.FC = () => {
                 <X className="h-5 w-5 md:h-6 md:w-6" />
               </button>
             </div>
-            
             <div className="mt-2 md:mt-3 flex flex-wrap items-center gap-2">
               <StatusHeader 
                 duration={currentRoute.duration} 
@@ -579,7 +554,6 @@ const ItinerarySection: React.FC = () => {
           </div>
         </div>
 
-        {/* Tabs */}
         <div className="flex gap-4 md:gap-6 border-b border-gray-100 px-4 md:px-6 pt-3 md:pt-4 max-w-6xl mx-auto overflow-x-auto scrollbar-hide">
           {tabs.map((tab) => (
             <button
@@ -596,12 +570,10 @@ const ItinerarySection: React.FC = () => {
           ))}
         </div>
         
-        {/* Content */}
         <div className="p-4 md:p-6 max-w-6xl mx-auto min-h-[400px]">
           {renderTabContent()}
         </div>
         
-        {/* Footer */}
         <div className="sticky bottom-0 bg-white border-t border-gray-200 p-3 md:p-4 shadow-lg">
           <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 max-w-6xl mx-auto">
             <div>
@@ -618,17 +590,26 @@ const ItinerarySection: React.FC = () => {
               </button>
               <button 
                 onClick={handleBookCabin}
-                className="flex-1 sm:flex-none rounded-lg bg-blue-600 px-4 md:px-6 py-2.5 md:py-3 text-xs md:text-sm font-semibold text-white hover:bg-blue-700 transition-colors flex items-center justify-center gap">
+                className="flex-1 sm:flex-none rounded-lg bg-blue-600 px-4 md:px-6 py-2.5 md:py-3 text-xs md:text-sm font-semibold text-white hover:bg-blue-700 transition-colors flex items-center justify-center gap"
+              >
                 <Waves className="h-3.5 w-3.5 md:h-4 md:w-4" />
-                <span className="hidden sm:inline">Select Cabin & Book</span>
-                <span className="sm:hidden">Book Now</span>
+                <span className="hidden sm:inline ml-2">Select Cabin & Book</span>
+                <span className="sm:hidden ml-2">Book Now</span>
               </button>
             </div>
           </div>
         </div>
-
       </div>
     </div>
+  );
+};
+
+// --- Main Component ---
+const ItinerarySection: React.FC = () => {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <ItineraryPageContent />
+    </Suspense>
   );
 };
 
