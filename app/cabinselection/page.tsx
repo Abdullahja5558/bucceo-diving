@@ -1,4 +1,4 @@
-// CabinSelectionDialog.tsx
+
 'use client';
 import React, { useState, useMemo, useCallback } from 'react';
 import Image from 'next/image';
@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import * as Dialog from '@radix-ui/react-dialog';
 import { Minus, Plus, X, Maximize2, Bed, AirVent, Check, Trash2 } from 'lucide-react';
 
-// --- Type Definitions ---
 type CabinFeature = {
     icon: any;
     label: string;
@@ -25,7 +24,7 @@ type Cabin = {
     amenities: string[];
 };
 
-// --- Static Data ---
+
 const cabinData: Cabin[] = [
     {
         id: 'standard',
@@ -102,12 +101,11 @@ const handleStripeCheckout = async (selectedCabin: Cabin | null, numGuests: numb
 };
 
 
-// --- Helper Functions ---
+
 const formatPrice = (price: number): string => {
     return price.toLocaleString('en-US', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0 });
 };
 
-// --- Sub-Components ---
 const FeatureItem: React.FC<{ icon: any; label: string }> = React.memo(({ icon: Icon, label }) => (
     <div className="flex items-center space-x-1.5">
         <Icon className="h-4 w-4 text-blue-600 shrink-0" />
