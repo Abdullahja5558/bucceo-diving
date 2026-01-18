@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Clock, Waves, Calendar, MapPin, X, CheckCircle, Anchor, Coffee } from 'lucide-react';
 
-// --- Types ---
+
 type Route = {
   id: number;
   name: string;
@@ -203,7 +203,7 @@ const WHATS_INCLUDED = {
   ],
 };
 
-// --- Sub-Components ---
+
 const StatusHeader: React.FC<{ duration: string; dives: string; dates: string }> = ({ duration, dives, dates }) => (
   <div className="flex flex-wrap items-center gap-3 md:gap-4 text-xs md:text-sm text-white">
     <div className="flex items-center gap-1.5">
@@ -236,7 +236,7 @@ const PreviewImageCard: React.FC<{ name: string; imagePath: string }> = ({ name,
   </div>
 );
 
-// --- Tab Content Components ---
+
 const OverviewTab: React.FC<{ description: string }> = ({ description }) => (
   <div className="space-y-6">
     <p className="text-sm md:text-base text-gray-700 leading-relaxed">{description}</p>
@@ -448,7 +448,6 @@ const VesselInfoTab: React.FC = () => (
   </div>
 );
 
-// --- Component Logic that requires useSearchParams ---
 const ItineraryPageContent: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -604,7 +603,7 @@ const ItineraryPageContent: React.FC = () => {
   );
 };
 
-// --- Main Component ---
+
 const ItinerarySection: React.FC = () => {
   return (
     <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
