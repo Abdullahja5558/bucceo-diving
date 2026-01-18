@@ -13,12 +13,12 @@ import {
   Star,
   ArrowLeft,
   CheckCircle2,
-  AlertTriangle, // Validation error ke liye naya icon
-  X, // Close button ke liye
+  AlertTriangle, 
+  X,
 } from "lucide-react";
 import { motion, useInView, Variants, AnimatePresence } from "framer-motion";
 
-/* -------------------- CountUp Number Animation (unchanged) -------------------- */
+
 const CountUp = ({ end, duration }: { end: number; duration: number }) => {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
@@ -46,7 +46,7 @@ const CountUp = ({ end, duration }: { end: number; duration: number }) => {
   return <span ref={ref}>{count.toLocaleString()}</span>;
 };
 
-/* -------------------- Data (unchanged) -------------------- */
+
 const STATS = [
   { icon: Briefcase, value: 15, unit: "+ Years", label: "Experience" },
   { icon: Users, value: 100000, unit: "+", label: "Happy Divers" },
@@ -76,7 +76,7 @@ const TESTIMONIAL = {
   author: "Sarah M., Advanced Diver",
 };
 
-/* -------------------- Motion Variants (unchanged) -------------------- */
+
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
@@ -94,7 +94,7 @@ const scaleIn: Variants = {
   visible: { opacity: 1, scale: 1 },
 };
 
-/* -------------------- Stat Card (unchanged) -------------------- */
+
 const StatCard = ({ icon: Icon, value, unit, label, custom }: any) => (
   <motion.div
     variants={fadeUp}
@@ -116,11 +116,11 @@ const StatCard = ({ icon: Icon, value, unit, label, custom }: any) => (
   </motion.div>
 );
 
-/* -------------------- UPDATED POPUP COMPONENT with 2 second timeout -------------------- */
+
 const ValidationErrorPopup = ({ message, onClose }: { message: string, onClose: () => void }) => {
   
   useEffect(() => {
-    // 2000 milliseconds = 2 seconds
+    
     const timer = setTimeout(() => {
       onClose(); 
     }, 2000);
@@ -134,7 +134,7 @@ const ValidationErrorPopup = ({ message, onClose }: { message: string, onClose: 
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: -20, scale: 0.9 }}
       transition={{ duration: 0.3 }}
-      className="fixed top-4 left-1/2 -translate-x-1/2 z-[100] max-w-lg w-full p-4 bg-red-500 text-white rounded-xl shadow-2xl border border-red-400 flex items-center justify-between"
+      className="fixed top-4 left-1/2 -translate-x-1/2 z-100 max-w-lg w-full p-4 bg-red-500 text-white rounded-xl shadow-2xl border border-red-400 flex items-center justify-between"
     >
       <div className="flex items-center gap-3">
         <AlertTriangle className="h-5 w-5 text-red-100" />
@@ -154,9 +154,7 @@ const ValidationErrorPopup = ({ message, onClose }: { message: string, onClose: 
 };
 
 
-/* ============================================================
-                        MAIN COMPONENT
-============================================================ */
+
 export default function ContactSection() {
   const [submitted, setSubmitted] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
@@ -171,7 +169,7 @@ export default function ContactSection() {
     message: "",
   });
 
-  // Required fields ki list
+  
   const REQUIRED_FIELDS = [
     { key: "name", label: "Full Name" },
     { key: "email", label: "Email Address" },
@@ -185,19 +183,19 @@ export default function ContactSection() {
     e.preventDefault();
     setValidationError(null);
 
-    // 1. Validation Check
+    
     const emptyField = REQUIRED_FIELDS.find(field => !formData[field.key as keyof typeof formData]);
 
     if (emptyField) {
-      // Agar koi empty field milta hai, toh error message set karein
+      
       setValidationError(`Your ${emptyField.label}is required to proceed.  `);
-      return; // Stop form submission
+      return; 
     }
 
-    // 2. Submission Logic (only if validation passes)
+    
     setSubmitted(true);
     
-    // Form ko reset karein
+    
     setFormData({
       name: "",
       email: "",
@@ -208,7 +206,7 @@ export default function ContactSection() {
       message: "",
     });
     
-    // Success message ko 3 seconds baad hatayein
+    
     setTimeout(() => setSubmitted(false), 4000);
   };
 
@@ -219,7 +217,7 @@ export default function ContactSection() {
   return (
     <div className="bg-linear-to-b from-gray-50 to-blue-50/30 min-h-screen">
       
-      {/* -------------------- ERROR POPUP -------------------- */}
+     
       <AnimatePresence>
         {validationError && (
           <ValidationErrorPopup 
@@ -229,7 +227,7 @@ export default function ContactSection() {
         )}
       </AnimatePresence>
 
-      {/* -------------------- HERO (unchanged) -------------------- */}
+      
       <div
         className="relative py-24 px-8 bg-cover bg-center"
         style={{ backgroundImage: "url(/dive.png)" }}
