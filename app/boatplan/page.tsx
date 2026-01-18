@@ -158,9 +158,9 @@ const BoatPlan = () => {
       </header>
 
       <div className="flex flex-col lg:flex-row p-3 sm:p-4 md:p-5 lg:p-6 gap-3 sm:gap-4 lg:gap-6">
-        {/* Sidebar */}
+        
         <aside className="w-full lg:w-72 shrink-0 space-y-3 sm:space-y-4">
-          {/* Deck Selection */}
+         
           <div className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-xl p-4 sm:p-5 border border-gray-100">
             <div className="flex items-center gap-2 mb-3 sm:mb-4">
               <div className="bg-linear-to-br from-blue-100 to-blue-50 p-2 rounded-xl shadow-sm">
@@ -189,7 +189,7 @@ const BoatPlan = () => {
             </div>
           </div>
 
-          {/* Specs - Collapsible on Mobile */}
+         
           <div className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
             <button 
               onClick={() => setShowSpecs(!showSpecs)}
@@ -211,7 +211,7 @@ const BoatPlan = () => {
             </div>
           </div>
 
-          {/* Legend - Collapsible on Mobile */}
+          
           <div className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
             <button 
               onClick={() => setShowLegend(!showLegend)}
@@ -234,9 +234,9 @@ const BoatPlan = () => {
           </div>
         </aside>
 
-        {/* Main Content */}
+       
         <div className="flex-1 space-y-4 sm:space-y-5 lg:space-y-6">
-          {/* Title Card */}
+         
           <div className="bg-linear-to-r from-white via-blue-50/30 to-white backdrop-blur-xl rounded-2xl shadow-xl p-4 sm:p-5 lg:p-6 border border-blue-100/50">
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
               <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold bg-linear-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
@@ -251,10 +251,9 @@ const BoatPlan = () => {
             </div>
           </div>
 
-          {/* Image Container */}
+         
           <div className={`relative bg-linear-to-br from-white via-gray-50 to-blue-50/30 p-4 sm:p-6 md:p-7 lg:p-8 border-2 border-blue-100 rounded-2xl lg:rounded-3xl shadow-2xl overflow-hidden ${currentDeck.containerHeight}`}>
-            {/* Decorative Elements */}
-            <div className="absolute top-0 left-0 w-32 h-32 bg-blue-400/10 rounded-full blur-3xl" />
+         <div className="absolute top-0 left-0 w-32 h-32 bg-blue-400/10 rounded-full blur-3xl" />
             <div className="absolute bottom-0 right-0 w-40 h-40 bg-cyan-400/10 rounded-full blur-3xl" />
             
             <div className="relative flex flex-col h-full">
@@ -276,7 +275,7 @@ const BoatPlan = () => {
             </div>
           </div>
 
-          {/* Amenities Grid */}
+         
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3 md:gap-4">
             {currentDeck.amenities.map((a, i) => {
               const IconComponent = a.icon;
@@ -286,7 +285,7 @@ const BoatPlan = () => {
                   className={`relative group ${a.bg} ${a.border} border-2 p-3 sm:p-4 lg:p-5 rounded-2xl text-center shadow-lg hover:shadow-2xl transform hover:scale-105 hover:-translate-y-1 transition-all duration-500 cursor-pointer overflow-hidden`}
                   style={{ animationDelay: `${i * 100}ms` }}
                 >
-                  {/* Hover Effect */}
+                 
                   <div className="absolute inset-0 bg-linear-to-br from-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   
                   <div className="relative">

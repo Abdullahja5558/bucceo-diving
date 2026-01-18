@@ -115,7 +115,7 @@ const FeatureItem: React.FC<{ icon: any; label: string }> = React.memo(({ icon: 
 
 FeatureItem.displayName = 'FeatureItem';
 
-// --- Cabin Card Component ---
+
 interface CabinCardProps {
     cabin: Cabin;
     isSelected: boolean;
